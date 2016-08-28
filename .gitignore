@@ -7,6 +7,9 @@
 *.obj
 *.elf
 
+#output files
+output/
+
 # Precompiled Headers
 *.gch
 *.pch

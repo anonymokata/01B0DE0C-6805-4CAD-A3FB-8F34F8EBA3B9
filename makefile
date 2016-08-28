@@ -9,14 +9,14 @@ clean:
 	@rm -r -f src/*.o test/*.o output
 
 build:  clean $(objects) $(test_objects)
-	@echo "*** Building RomanNumeralCalcInC ***\n"
+	@echo "\n*** Building RomanNumeralCalcInC ***\n"
 	@mkdir -p output
-	@echo "Compiling..."
+	@echo "\tCompiling..."
 	@echo "CFLAGS ="$(CFLAGS)
 	@echo "objects ="$(objects)
 	@echo "test_objects ="$(test_objects)
-	gcc $(CFLAGS) -o output/tests $(test_objects) $(object) 
+	gcc $(CFLAGS) -o output/tests $(test_objects) $(objects) `pkg-config --cflags --libs check`
 
 test:  	build 
-	@echo "*** Running tests ***\n"
-	output/tests
+	@echo "\n*** Running tests ***\n"
+	@output/tests
