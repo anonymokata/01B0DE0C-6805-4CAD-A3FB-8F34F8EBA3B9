@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 #include "romancalc.h"
 
 int RomanCalculator(char *first, char* operator, char* second, char* result) {
@@ -15,5 +16,9 @@ int RomanCalculator(char *first, char* operator, char* second, char* result) {
 	if( result == NULL )
 		return ROMAN_CALCULATOR_MISSING_OUTPUT_BUFFER;
 
-	return ROMAN_CALCULATOR_SUCCESS;
+	if( strcmp(operator, "+") && strcmp(operator, "-" ) ) {
+		return ROMAN_CALCULATOR_INVALID_OPERATOR;
+	}
+
+	return ROMAN_CALCULATOR_FAILURE;
 }

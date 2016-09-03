@@ -34,6 +34,10 @@ START_TEST(test_I_plus_I_With_No_Result_Buffer_Returns_ROMAN_CALCULATOR_MISSING_
 }
 END_TEST
 
+START_TEST(test_I_invalidOperator_I_Returns_ROMAN_CALCULATOR_INVALID_OPERATOR) {
+	ck_assert_int_eq(RomanCalculator("I", "*", "I", result), ROMAN_CALCULATOR_INVALID_OPERATOR);
+}
+END_TEST
 
 Suite* CalculatorSuite(void) {
 	Suite* suite = suite_create("Roman Numeral Calculator Tests");
@@ -44,6 +48,7 @@ Suite* CalculatorSuite(void) {
 	tcase_add_test(inputs_case, test_I_plus_NULL_Returns_ROMAN_CALCULATOR_MISSING_SECOND_TERM);
 	tcase_add_test(inputs_case, test_I_NULL_I_Returns_ROMAN_CALCULATOR_MISSING_OPERATOR);
 	tcase_add_test(inputs_case, test_I_plus_I_With_No_Result_Buffer_Returns_ROMAN_CALCULATOR_MISSING_OUTPUT_BUFFER);
+	tcase_add_test(inputs_case, test_I_invalidOperator_I_Returns_ROMAN_CALCULATOR_INVALID_OPERATOR);
 	suite_add_tcase(suite, inputs_case);
 
 	return suite;
