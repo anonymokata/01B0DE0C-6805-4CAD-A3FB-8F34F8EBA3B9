@@ -45,6 +45,12 @@ START_TEST(test_I_plus_I_Returns_II){
 }
 END_TEST
 
+START_TEST(test_I_plus_II_Returns_III){
+	RomanCalculator("I", "+", "II", result);
+	ck_assert_str_eq(result, "III");
+}
+END_TEST
+
 Suite* CalculatorSuite(void) {
 	Suite* suite = suite_create("Roman Numeral Calculator Tests");
 	TCase* inputs_case = tcase_create("Validate Input Arguments");
@@ -63,6 +69,7 @@ Suite* CalculatorSuite(void) {
 	tcase_add_checked_fixture(adding_case, setup, NULL);
 
 	tcase_add_test(adding_case, test_I_plus_I_Returns_II);
+	tcase_add_test(adding_case, test_I_plus_II_Returns_III);
 
 	suite_add_tcase(suite, adding_case);
 	return suite;
