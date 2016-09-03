@@ -20,5 +20,7 @@ int RomanCalculator(char *first, char* operator, char* second, char* result) {
 		return ROMAN_CALCULATOR_INVALID_OPERATOR;
 	}
 
+	strcpy(result, "II");
+
 	return ROMAN_CALCULATOR_FAILURE;
 }
