@@ -53,15 +53,14 @@ arabicRomanPairs arabic_roman_lookup[] = 	{
 												{ 400, 	"CD" },
 												{ 500, 	"D"  },
 												{ 900, 	"CM" },
-												{1000, 	"M"  },
-												{  -1, 	NULL }
+												{1000, 	"M"  }
 											};
 
 int convertRomanToArabic(char* romanNumeral){
 
 	arabicRomanPairs* pairs = arabic_roman_lookup;
 
-	while( pairs->roman != NULL ) {
+	while( pairs < &arabic_roman_lookup[sizeof(arabic_roman_lookup)] ) {
 		if(strcmp(romanNumeral, pairs->roman) == 0)
 			break;
 		pairs++;
@@ -74,7 +73,7 @@ char* convertArabicToRoman(int arabicNumber){
 
 	arabicRomanPairs* pairs = arabic_roman_lookup;
 
-	while( pairs->arabic != -1 ){
+	while( pairs < &arabic_roman_lookup[sizeof(arabic_roman_lookup)] ){
 		if(pairs->arabic == arabicNumber)
 			break;
 
