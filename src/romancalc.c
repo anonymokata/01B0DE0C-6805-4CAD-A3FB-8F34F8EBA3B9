@@ -58,6 +58,9 @@ arabicRomanPair roman_arabic_lookup[] = 	{
 												{1000, 	ROMAN_M  , sizeof(ROMAN_M) - 1  }
 											};
 
+
+arabicRomanPair* lastRomanArabicLookupEntry = &roman_arabic_lookup[sizeof(roman_arabic_lookup) / sizeof(arabicRomanPair) - 1];
+
 arabicRomanPair arabic_roman_lookup[] = 	{
 												{   1, 	ROMAN_I  , sizeof(ROMAN_I) - 1  },
 												{   2, 	ROMAN_II , sizeof(ROMAN_II) - 1 },
@@ -76,17 +79,19 @@ arabicRomanPair arabic_roman_lookup[] = 	{
 												{1000, 	ROMAN_M  , sizeof(ROMAN_M) - 1  }	
 											};
 
+arabicRomanPair* lastArabicRomanLookupEntry = &arabic_roman_lookup[sizeof(roman_arabic_lookup) / sizeof(arabicRomanPair) - 1];
+
 int convertRomanToArabic(char* romanNumeral){
-	char* temp = romanNumeral;
+	char* position_in_roman_numeral = romanNumeral;
 	int accumulator = 0;
 
-	while( strlen(temp) != 0 ) {
+	while( strlen(position_in_roman_numeral) != 0 ) {
+
 		arabicRomanPair* pair = roman_arabic_lookup;
 
-		if(temp[0] == '+') break;
+		while( pair < lastRomanArabicLookupEntry ) {
 
-		while( pair < &roman_arabic_lookup[sizeof(roman_arabic_lookup)] ) {
-			if(strncmp(temp, pair->roman, pair->romanLength) == 0) {
+			if(strncmp(position_in_roman_numeral, pair->roman, pair->romanLength) == 0) {
 				accumulator += pair->arabic;
 				break;
 			}
@@ -94,7 +99,7 @@ int convertRomanToArabic(char* romanNumeral){
 			pair++;
 		}
 		
-		temp += pair->romanLength;
+		position_in_roman_numeral += pair->romanLength;
 	}
 
 	return accumulator;
@@ -103,35 +108,30 @@ int convertRomanToArabic(char* romanNumeral){
 char romanNumeral[16];
 
 char* convertArabicToRoman(int arabicNumber){
-	int temp = arabicNumber;
-	int lookup_entry_size =  sizeof(arabic_roman_lookup) / sizeof(arabicRomanPair);
-	arabicRomanPair* lastEntry = &arabic_roman_lookup[lookup_entry_size - 1];
+	int decrementedValue = arabicNumber;
 
 	memset(romanNumeral,0x00,sizeof(romanNumeral));
 	
-	while(temp > 0) {
+	while(decrementedValue > 0) {
 
 		arabicRomanPair* pair = arabic_roman_lookup;
 
-		while( pair <= lastEntry ){
+		do {
 
-			if( pair == lastEntry ) {
+			if( pair == lastArabicRomanLookupEntry ) {
 				strcat(romanNumeral, pair->roman);
-				temp -= pair->arabic;
+				decrementedValue -= pair->arabic;
 				break;
 			}
 	
-			if(pair->arabic > temp) {
-				arabicRomanPair* previousEntry = pair - 1;
-				strcat(romanNumeral, previousEntry->roman);
-				temp -= previousEntry->arabic;				
-				pair++;
+			if(pair->arabic > decrementedValue) {
+				strcat(romanNumeral, (pair - 1)->roman);
+				decrementedValue -= (pair - 1)->arabic;				
 				break;
 			}
-			else {
-				pair++;
-			}
-		}
+
+			pair++;
+		} while( pair <= lastArabicRomanLookupEntry );
 	}
 
 	return romanNumeral; 
