@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdbool.h>
 #include <string.h>
 #include "romancalc.h"
 
@@ -29,56 +30,109 @@ int RomanCalculator(char *first, char* operator, char* second, char* result) {
 	first_in_arabic = convertRomanToArabic(first);
 	second_in_arabic = convertRomanToArabic(second);
 	strcpy(result, convertArabicToRoman(first_in_arabic + second_in_arabic));
-
+	
 	return ROMAN_CALCULATOR_SUCCESS;
 }
 
-typedef struct arabicRomanPairs {
+typedef struct arabicRomanPair {
 	int 	arabic;
 	char* 	roman;
-} arabicRomanPairs; 
+	int 	romanLength;
+} arabicRomanPair; 
 
-arabicRomanPairs arabic_roman_lookup[] = 	{
-												{   1, 	"I"  },
-												{   2, 	"II" },
-												{   3, 	"III"},
-												{   4, 	"IV" },
-												{   5, 	"V"  },
-												{   9, 	"IX" },
-												{  10, 	"X"  },
-												{  40, 	"XL" },
-												{  50, 	"L"  },
-												{  90, 	"XC" },
-												{ 100, 	"C"  },
-												{ 400, 	"CD" },
-												{ 500, 	"D"  },
-												{ 900, 	"CM" },
-												{1000, 	"M"  }
+arabicRomanPair roman_arabic_lookup[] = 	{
+												{   3, 	ROMAN_III, sizeof(ROMAN_III) - 1},
+												{   2, 	ROMAN_II , sizeof(ROMAN_II) - 1 },
+												{   4, 	ROMAN_IV , sizeof(ROMAN_IV) - 1 },
+												{   9, 	ROMAN_IX , sizeof(ROMAN_IX) - 1 },
+												{  40, 	ROMAN_XL , sizeof(ROMAN_XL) - 1 },
+												{  90, 	ROMAN_XC , sizeof(ROMAN_XC) - 1 },
+												{ 400, 	ROMAN_CD , sizeof(ROMAN_CD) - 1 },
+												{ 900, 	ROMAN_CM , sizeof(ROMAN_CM) - 1 },
+												{   1, 	ROMAN_I  , sizeof(ROMAN_I) - 1  },
+												{   5, 	ROMAN_V  , sizeof(ROMAN_V) - 1  },
+												{  10, 	ROMAN_X  , sizeof(ROMAN_X) - 1  },
+												{  50, 	ROMAN_L  , sizeof(ROMAN_L) - 1  },
+												{ 100, 	ROMAN_C  , sizeof(ROMAN_C) - 1  },
+												{ 500, 	ROMAN_D  , sizeof(ROMAN_D) - 1  },
+												{1000, 	ROMAN_M  , sizeof(ROMAN_M) - 1  }
+											};
+
+arabicRomanPair arabic_roman_lookup[] = 	{
+												{   1, 	ROMAN_I  , sizeof(ROMAN_I) - 1  },
+												{   2, 	ROMAN_II , sizeof(ROMAN_II) - 1 },
+												{   3, 	ROMAN_III, sizeof(ROMAN_III) - 1},
+												{   4, 	ROMAN_IV , sizeof(ROMAN_IV) - 1 },
+												{   5, 	ROMAN_V  , sizeof(ROMAN_V) - 1  },
+												{   9, 	ROMAN_IX , sizeof(ROMAN_IX) - 1 },
+												{  10, 	ROMAN_X  , sizeof(ROMAN_X) - 1  },
+												{  40, 	ROMAN_XL , sizeof(ROMAN_XL) - 1 },
+												{  50, 	ROMAN_L  , sizeof(ROMAN_L) - 1  },
+												{  90, 	ROMAN_XC , sizeof(ROMAN_XC) - 1 },
+												{ 100, 	ROMAN_C  , sizeof(ROMAN_C) - 1  },
+												{ 400, 	ROMAN_CD , sizeof(ROMAN_CD) - 1 },
+												{ 500, 	ROMAN_D  , sizeof(ROMAN_D) - 1  },
+												{ 900, 	ROMAN_CM , sizeof(ROMAN_CM) - 1 },
+												{1000, 	ROMAN_M  , sizeof(ROMAN_M) - 1  }	
 											};
 
 int convertRomanToArabic(char* romanNumeral){
+	char* temp = romanNumeral;
+	int accumulator = 0;
 
-	arabicRomanPairs* pairs = arabic_roman_lookup;
+	while( strlen(temp) != 0 ) {
+		arabicRomanPair* pair = roman_arabic_lookup;
 
-	while( pairs < &arabic_roman_lookup[sizeof(arabic_roman_lookup)] ) {
-		if(strcmp(romanNumeral, pairs->roman) == 0)
-			break;
-		pairs++;
+		if(temp[0] == '+') break;
+
+		while( pair < &roman_arabic_lookup[sizeof(roman_arabic_lookup)] ) {
+			if(strncmp(temp, pair->roman, pair->romanLength) == 0) {
+				accumulator += pair->arabic;
+				break;
+			}
+
+			pair++;
+		}
+		
+		temp += pair->romanLength;
 	}
 
-	return pairs->arabic;
+	return accumulator;
 }
 
+char romanNumeral[16];
+
 char* convertArabicToRoman(int arabicNumber){
+	int temp = arabicNumber;
+	int lookup_entry_size =  sizeof(arabic_roman_lookup) / sizeof(arabicRomanPair);
+	arabicRomanPair* lastEntry = &arabic_roman_lookup[lookup_entry_size - 1];
 
-	arabicRomanPairs* pairs = arabic_roman_lookup;
+	memset(romanNumeral,0x00,sizeof(romanNumeral));
+	
+	while(temp > 0) {
 
-	while( pairs < &arabic_roman_lookup[sizeof(arabic_roman_lookup)] ){
-		if(pairs->arabic == arabicNumber)
-			break;
+		arabicRomanPair* pair = arabic_roman_lookup;
 
-		pairs++;
+		while( pair <= lastEntry ){
+
+			if( pair == lastEntry ) {
+				strcat(romanNumeral, pair->roman);
+				temp -= pair->arabic;
+				break;
+			}
+	
+			if(pair->arabic > temp) {
+				arabicRomanPair* previousEntry = pair - 1;
+				strcat(romanNumeral, previousEntry->roman);
+				temp -= previousEntry->arabic;				
+				pair++;
+				break;
+			}
+			else {
+				pair++;
+			}
+		}
 	}
 
-	return pairs->roman; 
+	return romanNumeral; 
 }
