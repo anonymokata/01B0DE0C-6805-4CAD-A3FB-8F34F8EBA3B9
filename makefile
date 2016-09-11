@@ -1,4 +1,4 @@
-CFLAGS:=-std=c99 -Wall -Werror -g
+CFLAGS:=-std=c99 -Wall -Werror -g -pedantic
 objects:=$(patsubst src/%.c,src/%.o,$(wildcard src/*.c))
 test_objects:=$(patsubst test/%.c,test/%.o,$(wildcard test/*.c))
 

@@ -5,8 +5,26 @@
 
 int convertRomanToArabic(char * romanNumeral);
 char* convertArabicToRoman(int arabicNumber);
+int validateInputParameters(char* first, char* operator, char* second, char* result);
 
 int RomanCalculator(char *first, char* operator, char* second, char* result) {
+
+	int returnCode;
+
+	if( ( returnCode = validateInputParameters(first, operator, second, result) ) != ROMAN_CALCULATOR_SUCCESS )
+		return returnCode;
+
+	int first_in_arabic;
+	int second_in_arabic;
+
+	first_in_arabic = convertRomanToArabic(first);
+	second_in_arabic = convertRomanToArabic(second);
+	strcpy(result, convertArabicToRoman(first_in_arabic + second_in_arabic));
+	
+	return ROMAN_CALCULATOR_SUCCESS;
+}
+
+int validateInputParameters(char* first, char* operator, char* second, char* result){
 
 	if( first == NULL )
 		return ROMAN_CALCULATOR_MISSING_FIRST_TERM;
@@ -20,18 +38,10 @@ int RomanCalculator(char *first, char* operator, char* second, char* result) {
 	if( result == NULL )
 		return ROMAN_CALCULATOR_MISSING_OUTPUT_BUFFER;
 
-	if( strcmp(operator, "+") && strcmp(operator, "-" ) ) {
+	if( strcmp(operator, "+") && strcmp(operator, "-" ) ) 
 		return ROMAN_CALCULATOR_INVALID_OPERATOR;
-	}
 
-	int first_in_arabic;
-	int second_in_arabic;
-
-	first_in_arabic = convertRomanToArabic(first);
-	second_in_arabic = convertRomanToArabic(second);
-	strcpy(result, convertArabicToRoman(first_in_arabic + second_in_arabic));
-	
-	return ROMAN_CALCULATOR_SUCCESS;
+	return ROMAN_CALCULATOR_SUCCESS;	
 }
 
 typedef struct arabicRomanPair {
@@ -86,11 +96,9 @@ int convertRomanToArabic(char* romanNumeral){
 	int accumulator = 0;
 
 	while( strlen(position_in_roman_numeral) != 0 ) {
-
 		arabicRomanPair* pair = roman_arabic_lookup;
 
 		while( pair < lastRomanArabicLookupEntry ) {
-
 			if(strncmp(position_in_roman_numeral, pair->roman, pair->romanLength) == 0) {
 				accumulator += pair->arabic;
 				break;
@@ -113,11 +121,9 @@ char* convertArabicToRoman(int arabicNumber){
 	memset(romanNumeral,0x00,sizeof(romanNumeral));
 	
 	while(decrementedValue > 0) {
-
 		arabicRomanPair* pair = arabic_roman_lookup;
 
 		do {
-
 			if( pair == lastArabicRomanLookupEntry ) {
 				strcat(romanNumeral, pair->roman);
 				decrementedValue -= pair->arabic;
