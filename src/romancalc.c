@@ -24,6 +24,11 @@ int RomanCalculator(char *first, char* operator, char* second, char* result) {
     }
 
 	second_in_arabic = convertRomanToArabic(second);
+
+    if( second_in_arabic  > 3999 ) {
+        return ROMAN_CALCULATOR_SECOND_TERM_OVERFLOW;
+    }
+
 	strcpy(result, convertArabicToRoman(first_in_arabic + second_in_arabic));
 	
 	return ROMAN_CALCULATOR_SUCCESS;
