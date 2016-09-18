@@ -18,6 +18,11 @@ int RomanCalculator(char *first, char* operator, char* second, char* result) {
 	int second_in_arabic;
 
 	first_in_arabic = convertRomanToArabic(first);
+
+    if( first_in_arabic > 3999 ) {
+        return ROMAN_CALCULATOR_FIRST_TERM_OVERFLOW;
+    }
+
 	second_in_arabic = convertRomanToArabic(second);
 	strcpy(result, convertArabicToRoman(first_in_arabic + second_in_arabic));
 	
@@ -98,7 +103,7 @@ int convertRomanToArabic(char* romanNumeral){
 	while( strlen(position_in_roman_numeral) != 0 ) {
 		arabicRomanPair* pair = roman_arabic_lookup;
 
-		while( pair < lastRomanArabicLookupEntry ) {
+		while( pair <= lastRomanArabicLookupEntry ) {
 			if(strncmp(position_in_roman_numeral, pair->roman, pair->romanLength) == 0) {
 				accumulator += pair->arabic;
 				break;
