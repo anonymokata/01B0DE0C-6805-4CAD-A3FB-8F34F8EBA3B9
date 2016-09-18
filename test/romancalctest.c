@@ -85,6 +85,10 @@ START_TEST(test_I_plus_MMMM_returns_ROMAN_CALCULATOR_SECOND_TERM_OVERFLOW){
 }
 END_TEST
 
+START_TEST(test_MMM_plus_MMM_returns_ROMAN_CALCULATOR_RESULT_OVERFLOW){
+    ck_assert_int_eq( RomanCalculator("MMM","+","MMM", result), ROMAN_CALCULATOR_RESULT_OVERFLOW);
+}
+END_TEST
 
 Suite* CalculatorSuite(void) {
 	Suite* suite = suite_create("Roman Numeral Calculator Tests");
@@ -109,6 +113,7 @@ Suite* CalculatorSuite(void) {
 	tcase_add_test(adding_case, test_XLIX_plus_I_returns_L);
     tcase_add_test(adding_case, test_MMMM_plus_I_returns_ROMAN_CALCULATOR_FIRST_TERM_OVERFLOW);
     tcase_add_test(adding_case, test_I_plus_MMMM_returns_ROMAN_CALCULATOR_SECOND_TERM_OVERFLOW);
+    tcase_add_test(adding_case, test_MMM_plus_MMM_returns_ROMAN_CALCULATOR_RESULT_OVERFLOW);
 	suite_add_tcase(suite, adding_case);
 	return suite;
 }

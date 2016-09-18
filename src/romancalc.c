@@ -29,7 +29,13 @@ int RomanCalculator(char *first, char* operator, char* second, char* result) {
         return ROMAN_CALCULATOR_SECOND_TERM_OVERFLOW;
     }
 
-	strcpy(result, convertArabicToRoman(first_in_arabic + second_in_arabic));
+    int sum = first_in_arabic + second_in_arabic;
+
+    if( sum > 3999 ) {
+        return ROMAN_CALCULATOR_RESULT_OVERFLOW;
+    }
+
+	strcpy(result, convertArabicToRoman(sum));
 	
 	return ROMAN_CALCULATOR_SUCCESS;
 }

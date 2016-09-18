@@ -10,6 +10,7 @@
 #define ROMAN_CALCULATOR_INVALID_OPERATOR 		5
 #define ROMAN_CALCULATOR_FIRST_TERM_OVERFLOW    6
 #define ROMAN_CALCULATOR_SECOND_TERM_OVERFLOW   7 
+#define ROMAN_CALCULATOR_RESULT_OVERFLOW        8 
 #define ROMAN_CALCULATOR_FAILURE 				255
 
 int RomanCalculator(char *first, char* operator, char* second, char* result);
