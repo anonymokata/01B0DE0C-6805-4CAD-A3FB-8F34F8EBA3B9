@@ -5,5 +5,5 @@
 #include <check.h>
 
 Suite* CalculatorSuite(void);
-
+#define MAX_ARABIC_VALUE    3999
 #endif

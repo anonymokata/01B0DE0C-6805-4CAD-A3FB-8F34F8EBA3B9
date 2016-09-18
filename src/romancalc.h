@@ -14,6 +14,7 @@
 #define ROMAN_CALCULATOR_FAILURE 				255
 
 int RomanCalculator(char *first, char* operator, char* second, char* result);
+char *convertArabicToRoman(int value);
 
 #define ROMAN_I 	"I" 	/* 		1 */
 #define ROMAN_II 	"II" 	/* 		2 */

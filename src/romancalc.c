@@ -140,7 +140,7 @@ char* convertArabicToRoman(int arabicNumber){
 		arabicRomanPair* pair = arabic_roman_lookup;
 
 		do {
-			if( pair == lastArabicRomanLookupEntry ) {
+            if( pair == lastArabicRomanLookupEntry && pair->arabic <= decrementedValue) {
 				strcat(romanNumeral, pair->roman);
 				decrementedValue -= pair->arabic;
 				break;
@@ -148,12 +148,17 @@ char* convertArabicToRoman(int arabicNumber){
 	
 			if(pair->arabic > decrementedValue) {
 				strcat(romanNumeral, (pair - 1)->roman);
-				decrementedValue -= (pair - 1)->arabic;				
+				decrementedValue -= (pair - 1)->arabic;
 				break;
 			}
+            else if (pair->arabic == decrementedValue) {
+                strcat(romanNumeral, pair->roman);
+                decrementedValue -= pair->arabic;
+                break;
+            }
 
 			pair++;
-		} while( pair <= lastArabicRomanLookupEntry );
+		} while( pair <= lastArabicRomanLookupEntry && decrementedValue > 0);
 	}
 
 	return romanNumeral; 

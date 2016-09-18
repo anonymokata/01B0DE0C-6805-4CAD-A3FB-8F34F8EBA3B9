@@ -90,6 +90,26 @@ START_TEST(test_MMM_plus_MMM_returns_ROMAN_CALCULATOR_RESULT_OVERFLOW){
 }
 END_TEST
 
+START_TEST(test_all_values_returns_correct_result){
+    
+    for( int i = 1 ; i < (MAX_ARABIC_VALUE - 1) ; i++ ){
+        char term1[16];
+        int j = (MAX_ARABIC_VALUE - 1) - i;
+        char term2[16];
+        char result[16];
+
+        memset(term1, 0x00, sizeof(term1));
+        memset(term2, 0x00, sizeof(term2));
+        memset(result, 0x00, sizeof(result));
+        
+        strcat(term1, convertArabicToRoman(i));
+        strcat(term2, convertArabicToRoman(j));
+
+        ck_assert_int_eq(RomanCalculator(term1, "+", term2, result), ROMAN_CALCULATOR_SUCCESS);
+    }
+}
+END_TEST
+
 Suite* CalculatorSuite(void) {
 	Suite* suite = suite_create("Roman Numeral Calculator Tests");
 	TCase* inputs_case = tcase_create("Validate Input Arguments");
@@ -114,6 +134,7 @@ Suite* CalculatorSuite(void) {
     tcase_add_test(adding_case, test_MMMM_plus_I_returns_ROMAN_CALCULATOR_FIRST_TERM_OVERFLOW);
     tcase_add_test(adding_case, test_I_plus_MMMM_returns_ROMAN_CALCULATOR_SECOND_TERM_OVERFLOW);
     tcase_add_test(adding_case, test_MMM_plus_MMM_returns_ROMAN_CALCULATOR_RESULT_OVERFLOW);
+    tcase_add_test(adding_case, test_all_values_returns_correct_result);
 	suite_add_tcase(suite, adding_case);
 	return suite;
 }
