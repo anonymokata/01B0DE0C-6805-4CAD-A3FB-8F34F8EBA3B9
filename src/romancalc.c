@@ -19,20 +19,20 @@ int RomanCalculator(char *first, char* operator, char* second, char* result) {
 
 	first_in_arabic = convertRomanToArabic(first);
 
-    if( first_in_arabic > 3999 ) {
+    if( first_in_arabic > MAX_ARABIC_VALUE ) {
         return ROMAN_CALCULATOR_FIRST_TERM_OVERFLOW;
     }
 
 	second_in_arabic = convertRomanToArabic(second);
 
-    if( second_in_arabic  > 3999 ) {
+    if( second_in_arabic  > MAX_ARABIC_VALUE ) {
         return ROMAN_CALCULATOR_SECOND_TERM_OVERFLOW;
     }
 
     if( strcmp(operator, "+" ) == 0) {
         int sum = first_in_arabic + second_in_arabic;
 
-        if( sum > 3999 ) {
+        if( sum > MAX_ARABIC_VALUE ) {
             return ROMAN_CALCULATOR_RESULT_OVERFLOW;
         }
 

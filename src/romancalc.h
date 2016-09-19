@@ -32,4 +32,6 @@ char *convertArabicToRoman(int value);
 #define ROMAN_D 	"D" 	/* 	  500 */
 #define ROMAN_CM 	"CM" 	/* 	  900 */
 #define ROMAN_M 	"M" 	/* 	 1000 */
+
+#define MAX_ARABIC_VALUE    3999
 #endif
