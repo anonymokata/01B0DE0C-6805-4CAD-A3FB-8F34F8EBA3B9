@@ -41,6 +41,9 @@ int RomanCalculator(char *first, char* operator, char* second, char* result) {
     else {
         int difference = first_in_arabic - second_in_arabic;
 
+        if( difference < 1 )
+            return ROMAN_CALCULATOR_RESULT_UNDERFLOW;
+
         strcpy(result, convertArabicToRoman(difference));
     }
 

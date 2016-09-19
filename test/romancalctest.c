@@ -116,6 +116,11 @@ START_TEST(test_II_minus_I_returns_I){
 }
 END_TEST
 
+START_TEST(test_I_minus_I_returns_ROMAN_CALCULATOR_RESULT_UNDERFLOW){
+    ck_assert_int_eq(RomanCalculator("I", "-", "I", result), ROMAN_CALCULATOR_RESULT_UNDERFLOW);
+}
+END_TEST
+
 Suite* CalculatorSuite(void) {
 	Suite* suite = suite_create("Roman Numeral Calculator Tests");
 	TCase* inputs_case = tcase_create("Validate Input Arguments");
@@ -145,6 +150,8 @@ Suite* CalculatorSuite(void) {
     
     TCase* subtraction_case = tcase_create("Subtraction tests");
     tcase_add_test(subtraction_case, test_II_minus_I_returns_I);
-	suite_add_tcase(suite, subtraction_case);
+    tcase_add_test(subtraction_case, test_I_minus_I_returns_ROMAN_CALCULATOR_RESULT_UNDERFLOW);
+
+    suite_add_tcase(suite, subtraction_case);
 	return suite;
 }
