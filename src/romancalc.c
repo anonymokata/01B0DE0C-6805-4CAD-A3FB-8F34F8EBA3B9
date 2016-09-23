@@ -67,6 +67,9 @@ int validateInputParameters(char* first, char* operator, char* second, char* res
 	if( strcmp(operator, "+") && strcmp(operator, "-" ) ) 
 		return ROMAN_CALCULATOR_INVALID_OPERATOR;
 
+	if( !strcmp(first, "IXC") ||  !strcmp(first, "IC") )
+		return ROMAN_CALCULATOR_INVALID_FIRST_TERM;
+
 	return ROMAN_CALCULATOR_SUCCESS;	
 }
 
