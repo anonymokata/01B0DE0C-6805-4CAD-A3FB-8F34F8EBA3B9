@@ -6,6 +6,7 @@
 int convertRomanToArabic(char * romanNumeral);
 char* convertArabicToRoman(int arabicNumber);
 int validateInputParameters(char* first, char* operator, char* second, char* result);
+_Bool validateRomanNumeral(char *romanNumeral);
 
 int RomanCalculator(char *first, char* operator, char* second, char* result) {
 
@@ -50,7 +51,7 @@ int RomanCalculator(char *first, char* operator, char* second, char* result) {
 	return ROMAN_CALCULATOR_SUCCESS;
 }
 
-int validateInputParameters(char* first, char* operator, char* second, char* result){
+int validateInputParameters(char* first, char* operator, char* second, char* result) {
 
 	if( first == NULL )
 		return ROMAN_CALCULATOR_MISSING_FIRST_TERM;
@@ -67,7 +68,7 @@ int validateInputParameters(char* first, char* operator, char* second, char* res
 	if( strcmp(operator, "+") && strcmp(operator, "-" ) ) 
 		return ROMAN_CALCULATOR_INVALID_OPERATOR;
 
-	if( !strcmp(first, "IXC") ||  !strcmp(first, "IC") || !strcmp(first, "DM") )
+	if( !validateRomanNumeral(first) )
 		return ROMAN_CALCULATOR_INVALID_FIRST_TERM;
 
 	return ROMAN_CALCULATOR_SUCCESS;	
@@ -175,4 +176,12 @@ char* convertArabicToRoman(int arabicNumber){
 	}
 
 	return romanNumeral; 
+}
+
+_Bool validateRomanNumeral(char *romanNumeral) {
+
+	if( !strcmp(romanNumeral, "IXC") ||  !strcmp(romanNumeral, "IC") || !strcmp(romanNumeral, "DM") )
+		return false;
+
+	return true;
 }
