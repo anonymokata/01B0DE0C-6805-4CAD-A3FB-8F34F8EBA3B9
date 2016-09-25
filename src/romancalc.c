@@ -4,7 +4,7 @@
 #include "romancalc.h"
 
 int convertRomanToArabic(char * romanNumeral);
-char* convertArabicToRoman(int arabicNumber);
+char* convertArabicToRoman(int arabic_number);
 int validateInputParameters(char* first, char* operator, char* second, char* result);
 _Bool validateRomanNumeral(char *romanNumeral);
 
@@ -148,34 +148,34 @@ int convertRomanToArabic(char* romanNumeral){
 
 char romanNumeral[16];
 
-char* convertArabicToRoman(int arabicNumber){
-	int decrementedValue = arabicNumber;
+char* convertArabicToRoman(int arabic_number){
+	int decremented_value = arabic_number;
 
 	memset(romanNumeral,0x00,sizeof(romanNumeral));
 	
-	while(decrementedValue > 0) {
+	while(decremented_value > 0) {
 		arabicRomanPair* pair = arabic_roman_lookup;
 
 		do {
-            if( pair == lastArabicRomanLookupEntry && pair->arabic <= decrementedValue) {
+            if( pair == lastArabicRomanLookupEntry && pair->arabic <= decremented_value) {
 				strcat(romanNumeral, pair->roman);
-				decrementedValue -= pair->arabic;
+				decremented_value -= pair->arabic;
 				break;
 			}
 	
-			if(pair->arabic > decrementedValue) {
+			if(pair->arabic > decremented_value) {
 				strcat(romanNumeral, (pair - 1)->roman);
-				decrementedValue -= (pair - 1)->arabic;
+				decremented_value -= (pair - 1)->arabic;
 				break;
 			}
-            else if (pair->arabic == decrementedValue) {
+            else if (pair->arabic == decremented_value) {
                 strcat(romanNumeral, pair->roman);
-                decrementedValue -= pair->arabic;
+                decremented_value -= pair->arabic;
                 break;
             }
 
 			pair++;
-		} while( pair <= lastArabicRomanLookupEntry && decrementedValue > 0);
+		} while( pair <= lastArabicRomanLookupEntry && decremented_value > 0);
 	}
 
 	return romanNumeral; 
@@ -183,34 +183,34 @@ char* convertArabicToRoman(int arabicNumber){
 
 _Bool validateRomanNumeral(char *romanNumeral) {
 
-	int arabicCurrentValue = 0;
-	int arabicPrevValue = 0;
-	int currentIndex = strlen(romanNumeral);
-	_Bool validTerm;
+	int arabic_current_value = 0;
+	int arabic_previous_value = 0;
+	int current_index = strlen(romanNumeral);
+	_Bool valid_term;
 
-	while( currentIndex > 0 ) {
-		validTerm = false;
+	while( current_index > 0 ) {
+		valid_term = false;
 
 		for( arabicRomanPair* pair = roman_arabic_lookup ; pair <= lastRomanArabicLookupEntry ; pair++ ) {
-			if(memcmp(&romanNumeral[currentIndex - pair->romanLength], pair->roman, pair->romanLength) == 0) {
-				currentIndex -= pair->romanLength;
-				arabicCurrentValue = pair->arabic;
-				validTerm = true;
+			if(memcmp(&romanNumeral[current_index - pair->romanLength], pair->roman, pair->romanLength) == 0) {
+				current_index -= pair->romanLength;
+				arabic_current_value = pair->arabic;
+				valid_term = true;
 				break;
 			}
 		}
 
-		if(!validTerm || arabicCurrentValue < arabicPrevValue ) {
-			validTerm = false;
+		if(!valid_term || arabic_current_value < arabic_previous_value ) {
+			valid_term = false;
 			break;
 		}
 		
-		if(currentIndex == 0) {
+		if(current_index == 0) {
 			break;
 		}
 		
-		arabicPrevValue = arabicCurrentValue;
+		arabic_previous_value = arabic_current_value;
 	}
 
-	return validTerm;
+	return valid_term;
 }
