@@ -49,6 +49,11 @@ START_TEST(test_IC_plus_I_Returns_ROMAN_CALCULATOR_INVALID_FIRST_TERM) {
 }
 END_TEST
 
+START_TEST(test_DM_plus_I_Returns_ROMAN_CALCULATOR_INVALID_FIRST_TERM) {
+	ck_assert_int_eq(RomanCalculator("DM", "+", "I", result), ROMAN_CALCULATOR_INVALID_FIRST_TERM);
+}
+END_TEST
+
 START_TEST(test_I_plus_I_Returns_II){
 	RomanCalculator("I", "+", "I", result);
 	ck_assert_str_eq(result, "II");
@@ -144,6 +149,8 @@ Suite* CalculatorSuite(void) {
 	tcase_add_test(inputs_case, test_I_invalidOperator_I_Returns_ROMAN_CALCULATOR_INVALID_OPERATOR);
 	tcase_add_test(inputs_case, test_IXC_plus_I_Returns_ROMAN_CALCULATOR_INVALID_FIRST_TERM);
 	tcase_add_test(inputs_case, test_IC_plus_I_Returns_ROMAN_CALCULATOR_INVALID_FIRST_TERM);
+	tcase_add_test(inputs_case, test_DM_plus_I_Returns_ROMAN_CALCULATOR_INVALID_FIRST_TERM);
+
 	suite_add_tcase(suite, inputs_case);
 	TCase* adding_case = tcase_create("Addition tests");
 
