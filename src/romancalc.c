@@ -71,6 +71,9 @@ int validateInputParameters(char* first, char* operator, char* second, char* res
 	if( !validateRomanNumeral(first) )
 		return ROMAN_CALCULATOR_INVALID_FIRST_TERM;
 
+	if( !validateRomanNumeral(second) )
+		return ROMAN_CALCULATOR_INVALID_SECOND_TERM;
+
 	return ROMAN_CALCULATOR_SUCCESS;	
 }
 
