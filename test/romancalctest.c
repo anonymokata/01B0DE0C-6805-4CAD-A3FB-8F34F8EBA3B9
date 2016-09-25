@@ -164,7 +164,7 @@ Suite* CalculatorSuite(void) {
     tcase_add_test(adding_case, test_MMMM_plus_I_returns_ROMAN_CALCULATOR_FIRST_TERM_OVERFLOW);
     tcase_add_test(adding_case, test_I_plus_MMMM_returns_ROMAN_CALCULATOR_SECOND_TERM_OVERFLOW);
     tcase_add_test(adding_case, test_MMM_plus_MMM_returns_ROMAN_CALCULATOR_RESULT_OVERFLOW);
-    tcase_add_test(adding_case, test_all_values_returns_correct_result);
+    tcase_add_test(adding_case, test_all_values_returns_correct_result); 
 	suite_add_tcase(suite, adding_case);
     
     TCase* subtraction_case = tcase_create("Subtraction tests");

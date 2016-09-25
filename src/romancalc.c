@@ -180,8 +180,42 @@ char* convertArabicToRoman(int arabicNumber){
 
 _Bool validateRomanNumeral(char *romanNumeral) {
 
-	if( !strcmp(romanNumeral, "IXC") ||  !strcmp(romanNumeral, "IC") || !strcmp(romanNumeral, "DM") )
-		return false;
+	char current[5];
+	int arabicCurrentValue = 0;
+	char prev[5] = {'N', 'o', 'n', 'e', 0x00};
+	int arabicPrevValue = 0;
+	int currentIndex = strlen(romanNumeral);
+	_Bool validTerm;
 
-	return true;
+	memset(prev,0x00,sizeof(prev));
+
+	while( currentIndex > 0 ) {
+		memset(current, 0x00, sizeof(current));
+		validTerm = false;
+
+		for( arabicRomanPair* pair = roman_arabic_lookup ; pair <= lastRomanArabicLookupEntry ; pair++ ) {
+			if(memcmp(&romanNumeral[currentIndex - pair->romanLength], pair->roman, pair->romanLength) == 0) {
+				strcat(current, pair->roman);
+				currentIndex -= pair->romanLength;
+				arabicCurrentValue = pair->arabic;
+				validTerm = true;
+				break;
+			}
+		}
+
+		if(!validTerm || arabicCurrentValue < arabicPrevValue ) {
+			validTerm = false;
+			break;
+		}
+		
+		if(currentIndex == 0) {
+			break;
+		}
+		
+		memset(prev, 0x00, sizeof(prev));
+		strcat(prev, current);
+		arabicPrevValue = arabicCurrentValue;
+	}
+
+	return validTerm;
 }
