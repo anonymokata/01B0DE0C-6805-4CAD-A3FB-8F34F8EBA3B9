@@ -180,22 +180,16 @@ char* convertArabicToRoman(int arabicNumber){
 
 _Bool validateRomanNumeral(char *romanNumeral) {
 
-	char current[5];
 	int arabicCurrentValue = 0;
-	char prev[5] = {'N', 'o', 'n', 'e', 0x00};
 	int arabicPrevValue = 0;
 	int currentIndex = strlen(romanNumeral);
 	_Bool validTerm;
 
-	memset(prev,0x00,sizeof(prev));
-
 	while( currentIndex > 0 ) {
-		memset(current, 0x00, sizeof(current));
 		validTerm = false;
 
 		for( arabicRomanPair* pair = roman_arabic_lookup ; pair <= lastRomanArabicLookupEntry ; pair++ ) {
 			if(memcmp(&romanNumeral[currentIndex - pair->romanLength], pair->roman, pair->romanLength) == 0) {
-				strcat(current, pair->roman);
 				currentIndex -= pair->romanLength;
 				arabicCurrentValue = pair->arabic;
 				validTerm = true;
@@ -212,8 +206,6 @@ _Bool validateRomanNumeral(char *romanNumeral) {
 			break;
 		}
 		
-		memset(prev, 0x00, sizeof(prev));
-		strcat(prev, current);
 		arabicPrevValue = arabicCurrentValue;
 	}
 
