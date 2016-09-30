@@ -1,6 +1,9 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <string.h>
+#include <ctype.h>
+#include <unistd.h>
+
 #include "romancalc.h"
 
 typedef struct arabicRomanPair {
@@ -143,6 +146,19 @@ _Bool validateRomanNumeral(char *romanNumeral) {
 	return valid_term;
 }
 
+char* uppercase(char* parm){
+    int parm_length = strlen(parm);
+   
+    for(int i = 0 ; i < parm_length ; i++) {
+        parm[i] = toupper((int) parm[i]);    
+    }
+
+    return parm;
+}
+
+char first_parm[16];
+char second_parm[16];
+
 int validateInputParameters(char* first, char* operator, char* second, char* result) {
 
 	if( first == NULL )
@@ -157,13 +173,21 @@ int validateInputParameters(char* first, char* operator, char* second, char* res
 	if( result == NULL )
 		return ROMAN_CALCULATOR_MISSING_OUTPUT_BUFFER;
 
+    memset(first_parm, 0x00, sizeof(first_parm));
+    strcat(first_parm, first);
+    uppercase(first_parm);
+
+    memset(second_parm, 0x00, sizeof(second_parm));
+    strcat(second_parm, second);
+    uppercase(second_parm);
+
 	if( strcmp(operator, "+") && strcmp(operator, "-" ) ) 
 		return ROMAN_CALCULATOR_INVALID_OPERATOR;
 
-	if( !validateRomanNumeral(first) )
+	if( !validateRomanNumeral(first_parm) )
 		return ROMAN_CALCULATOR_INVALID_FIRST_TERM;
 
-	if( !validateRomanNumeral(second) )
+	if( !validateRomanNumeral(second_parm) )
 		return ROMAN_CALCULATOR_INVALID_SECOND_TERM;
 
 	return ROMAN_CALCULATOR_SUCCESS;	
@@ -180,13 +204,13 @@ int RomanCalculator(char *first, char* operator, char* second, char* result) {
 	int first_in_arabic;
 	int second_in_arabic;
 
-	first_in_arabic = convertRomanToArabic(first);
+	first_in_arabic = convertRomanToArabic(first_parm);
 
     if( first_in_arabic > MAX_ARABIC_VALUE ) {
         return ROMAN_CALCULATOR_FIRST_TERM_OVERFLOW;
     }
 
-	second_in_arabic = convertRomanToArabic(second);
+	second_in_arabic = convertRomanToArabic(second_parm);
 
     if( second_in_arabic  > MAX_ARABIC_VALUE ) {
         return ROMAN_CALCULATOR_SECOND_TERM_OVERFLOW;
