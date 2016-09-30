@@ -59,6 +59,16 @@ START_TEST(test_I_plus_DM_Returns_ROMAN_CALCULATOR_INVALID_SECOND_TERM) {
 }
 END_TEST
 
+START_TEST(test_W_plus_I_Returns_ROMAN_CALCULATOR_INVALID_FIRST_TERM) {
+	ck_assert_int_eq(RomanCalculator("W", "+", "I", result), ROMAN_CALCULATOR_INVALID_FIRST_TERM);
+}
+END_TEST
+
+START_TEST(test_I_plus_W_Returns_ROMAN_CALCULATOR_INVALID_SECOND_TERM) {
+	ck_assert_int_eq(RomanCalculator("I", "+", "W", result), ROMAN_CALCULATOR_INVALID_SECOND_TERM);
+}
+END_TEST
+
 START_TEST(test_I_plus_I_Returns_II){
 	RomanCalculator("I", "+", "I", result);
 	ck_assert_str_eq(result, "II");
@@ -123,7 +133,6 @@ START_TEST(test_MMM_plus_MMM_returns_ROMAN_CALCULATOR_RESULT_OVERFLOW){
 END_TEST
 
 START_TEST(test_all_values_returns_correct_result){
-/*    
     for( int i = 1 ; i < (MAX_ARABIC_VALUE - 1) ; i++ ){
         char term1[16];
         int j = (MAX_ARABIC_VALUE - 1) - i;
@@ -139,7 +148,7 @@ START_TEST(test_all_values_returns_correct_result){
 
         ck_assert_int_eq(RomanCalculator(term1, "+", term2, result), ROMAN_CALCULATOR_SUCCESS);
     }
-*/
+    
     ck_assert_int_eq(0,0);
 }
 END_TEST
@@ -172,7 +181,14 @@ Suite* CalculatorSuite(void) {
 	tcase_add_test(inputs_case, test_I_plus_DM_Returns_ROMAN_CALCULATOR_INVALID_SECOND_TERM);
 
 	suite_add_tcase(suite, inputs_case);
-    
+
+    TCase* invalid_numeral_case = tcase_create("Check for Invalid Characters");
+
+    tcase_add_test(invalid_numeral_case, test_W_plus_I_Returns_ROMAN_CALCULATOR_INVALID_FIRST_TERM);
+    tcase_add_test(invalid_numeral_case, test_I_plus_W_Returns_ROMAN_CALCULATOR_INVALID_SECOND_TERM);
+
+    suite_add_tcase(suite, invalid_numeral_case);
+
     TCase* case_insensitive_case = tcase_create("Allow Case Insensitive Terms");
     
     tcase_add_test(case_insensitive_case, test_i_plus_I_Returns_II);
