@@ -2,7 +2,6 @@
 #include <stdbool.h>
 #include <string.h>
 #include <ctype.h>
-#include <unistd.h>
 
 #include "romancalc.h"
 
@@ -55,7 +54,7 @@ arabicRomanPair arabic_roman_lookup[] = 	{
 arabicRomanPair* lastArabicRomanLookupEntry = &arabic_roman_lookup[sizeof(roman_arabic_lookup) / 
                                                 sizeof(arabicRomanPair) - 1];
 
-int convertRomanToArabic(char* romanNumeral){
+int convertRomanToArabic(char* romanNumeral) {
 	char* position_in_roman_numeral = romanNumeral;
 	int accumulator = 0;
 
@@ -98,7 +97,7 @@ char* convertArabicToRoman(int arabic_number){
 				strcat(romanNumeral, (pair - 1)->roman);
 				decremented_value -= (pair - 1)->arabic;
 				break;
-			}
+			} 
             else if (pair->arabic == decremented_value) {
                 strcat(romanNumeral, pair->roman);
                 decremented_value -= pair->arabic;
@@ -161,17 +160,21 @@ char second_parm[16];
 
 int validateInputParameters(char* first, char* operator, char* second, char* result) {
 
-	if( first == NULL )
+	if( first == NULL ) {
 		return ROMAN_CALCULATOR_MISSING_FIRST_TERM;
+    }
 
-	if( second == NULL )
+	if( second == NULL ) {
 		return ROMAN_CALCULATOR_MISSING_SECOND_TERM;
+    }
 
-	if( operator == NULL )
+	if( operator == NULL ) {
 		return ROMAN_CALCULATOR_MISSING_OPERATOR;
+    }
 
-	if( result == NULL )
+	if( result == NULL ) {
 		return ROMAN_CALCULATOR_MISSING_OUTPUT_BUFFER;
+    }
 
     memset(first_parm, 0x00, sizeof(first_parm));
     strcat(first_parm, first);
@@ -181,14 +184,17 @@ int validateInputParameters(char* first, char* operator, char* second, char* res
     strcat(second_parm, second);
     uppercase(second_parm);
 
-	if( strcmp(operator, "+") && strcmp(operator, "-" ) ) 
+	if( strcmp(operator, "+") && strcmp(operator, "-" ) ) {
 		return ROMAN_CALCULATOR_INVALID_OPERATOR;
+    }
 
-	if( !validateRomanNumeral(first_parm) )
+	if( !validateRomanNumeral(first_parm) ) {
 		return ROMAN_CALCULATOR_INVALID_FIRST_TERM;
+    }
 
-	if( !validateRomanNumeral(second_parm) )
+	if( !validateRomanNumeral(second_parm) ) {
 		return ROMAN_CALCULATOR_INVALID_SECOND_TERM;
+    }
 
 	return ROMAN_CALCULATOR_SUCCESS;	
 }
@@ -198,8 +204,9 @@ int RomanCalculator(char *first, char* operator, char* second, char* result) {
 	int returnCode;
 
 	if( ( returnCode = validateInputParameters(first, operator, second, result) ) != 
-        ROMAN_CALCULATOR_SUCCESS )
+        ROMAN_CALCULATOR_SUCCESS ) {
 		return returnCode;
+    }
 
 	int first_in_arabic;
 	int second_in_arabic;
@@ -228,8 +235,9 @@ int RomanCalculator(char *first, char* operator, char* second, char* result) {
     else {
         int difference = first_in_arabic - second_in_arabic;
 
-        if( difference < 1 )
+        if( difference < 1 ) {
             return ROMAN_CALCULATOR_RESULT_UNDERFLOW;
+        }
 
         strcpy(result, convertArabicToRoman(difference));
     }
