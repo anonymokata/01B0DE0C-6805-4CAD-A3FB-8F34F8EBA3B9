@@ -9,3 +9,11 @@ A simple TDD roman numeral calculator in C
 ```
 sudo apt-get install check
 ```
+## Running the tests
+
+clone the repository  
+change to the project directory
+
+```
+make tests
+```
