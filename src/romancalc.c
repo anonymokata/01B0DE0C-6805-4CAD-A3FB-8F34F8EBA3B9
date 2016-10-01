@@ -161,19 +161,19 @@ char second_parm[16];
 int validateInputParameters(char* first, char* operator, char* second, char* result) {
 
 	if( first == NULL ) {
-		return ROMAN_CALCULATOR_MISSING_FIRST_TERM;
+		return FirstTermMissing;
     }
 
 	if( second == NULL ) {
-		return ROMAN_CALCULATOR_MISSING_SECOND_TERM;
+		return SecondTermMissing;
     }
 
 	if( operator == NULL ) {
-		return ROMAN_CALCULATOR_MISSING_OPERATOR;
+		return OperatorMissing;
     }
 
 	if( result == NULL ) {
-		return ROMAN_CALCULATOR_MISSING_OUTPUT_BUFFER;
+		return OutputBufferMissing;
     }
 
     memset(first_parm, 0x00, sizeof(first_parm));
@@ -185,26 +185,26 @@ int validateInputParameters(char* first, char* operator, char* second, char* res
     uppercase(second_parm);
 
 	if( strcmp(operator, "+") && strcmp(operator, "-" ) ) {
-		return ROMAN_CALCULATOR_INVALID_OPERATOR;
+		return OperatorInvalid;
     }
 
 	if( !validateRomanNumeral(first_parm) ) {
-		return ROMAN_CALCULATOR_INVALID_FIRST_TERM;
+		return SecondTermOverflow;
     }
 
 	if( !validateRomanNumeral(second_parm) ) {
-		return ROMAN_CALCULATOR_INVALID_SECOND_TERM;
+		return SecondTermInvalid;
     }
 
-	return ROMAN_CALCULATOR_SUCCESS;	
+	return Success;	
 }
 
-int RomanCalculator(char *first, char* operator, char* second, char* result) {
+enum CalculatorStatus RomanCalculator(char *first, char* operator, char* second, char* result) {
 
 	int returnCode;
 
 	if( ( returnCode = validateInputParameters(first, operator, second, result) ) != 
-        ROMAN_CALCULATOR_SUCCESS ) {
+        Success ) {
 		return returnCode;
     }
 
@@ -214,20 +214,20 @@ int RomanCalculator(char *first, char* operator, char* second, char* result) {
 	first_in_arabic = convertRomanToArabic(first_parm);
 
     if( first_in_arabic > MAX_ARABIC_VALUE ) {
-        return ROMAN_CALCULATOR_FIRST_TERM_OVERFLOW;
+        return FirstTermOverflow;
     }
 
 	second_in_arabic = convertRomanToArabic(second_parm);
 
     if( second_in_arabic  > MAX_ARABIC_VALUE ) {
-        return ROMAN_CALCULATOR_SECOND_TERM_OVERFLOW;
+        return SecondTermOverflow;
     }
 
     if( strcmp(operator, "+" ) == 0) {
         int sum = first_in_arabic + second_in_arabic;
 
         if( sum > MAX_ARABIC_VALUE ) {
-            return ROMAN_CALCULATOR_RESULT_OVERFLOW;
+            return ResultOverflow;
         }
 
 	    strcpy(result, convertArabicToRoman(sum));
@@ -236,12 +236,12 @@ int RomanCalculator(char *first, char* operator, char* second, char* result) {
         int difference = first_in_arabic - second_in_arabic;
 
         if( difference < 1 ) {
-            return ROMAN_CALCULATOR_RESULT_UNDERFLOW;
+            return ResultUnderflow;
         }
 
         strcpy(result, convertArabicToRoman(difference));
     }
 
-	return ROMAN_CALCULATOR_SUCCESS;
+	return Success;
 }
 

@@ -2,21 +2,22 @@
 
 #define ROMAN_CALC_H_DEFINED
 
-#define ROMAN_CALCULATOR_SUCCESS 			 	0
-#define ROMAN_CALCULATOR_MISSING_FIRST_TERM  	1
-#define ROMAN_CALCULATOR_MISSING_SECOND_TERM 	2
-#define ROMAN_CALCULATOR_MISSING_OPERATOR       3
-#define ROMAN_CALCULATOR_MISSING_OUTPUT_BUFFER 	4
-#define ROMAN_CALCULATOR_INVALID_OPERATOR 		5
-#define ROMAN_CALCULATOR_FIRST_TERM_OVERFLOW    6
-#define ROMAN_CALCULATOR_SECOND_TERM_OVERFLOW   7 
-#define ROMAN_CALCULATOR_RESULT_OVERFLOW        8 
-#define ROMAN_CALCULATOR_RESULT_UNDERFLOW       9
-#define ROMAN_CALCULATOR_INVALID_FIRST_TERM 	10
-#define ROMAN_CALCULATOR_INVALID_SECOND_TERM 	11
-#define ROMAN_CALCULATOR_FAILURE 				255
+enum CalculatorStatus {
+    Success,
+    FirstTermMissing,
+    FirstTermInvalid,
+    FirstTermOverflow,
+    SecondTermMissing,
+    SecondTermInvalid,
+    SecondTermOverflow,
+    OperatorMissing,
+    OperatorInvalid,
+    OutputBufferMissing,
+    ResultUnderflow,
+    ResultOverflow
+};
 
-int RomanCalculator(char *first, char* operator, char* second, char* result);
+enum CalculatorStatus RomanCalculator(char *first, char* operator, char* second, char* result);
 char *convertArabicToRoman(int value);
 
 #define ROMAN_I 	"I" 	/* 		1 */

@@ -14,58 +14,58 @@ void teardown(void) {
 
 }
 
-START_TEST(test_NULL_plus_I_Returns_ROMAN_CALCULATOR_MISSING_FIRST_TERM) {
-	ck_assert_int_eq(RomanCalculator(NULL, "+", "I", result), ROMAN_CALCULATOR_MISSING_FIRST_TERM);
+START_TEST(test_NULL_plus_I_Returns_FirstTermMissing) {
+	ck_assert_int_eq(RomanCalculator(NULL, "+", "I", result), FirstTermMissing);
 }
 END_TEST
 
-START_TEST(test_I_plus_NULL_Returns_ROMAN_CALCULATOR_MISSING_SECOND_TERM) {
-	ck_assert_int_eq(RomanCalculator("I", "+", NULL, result), ROMAN_CALCULATOR_MISSING_SECOND_TERM);
+START_TEST(test_I_plus_NULL_Returns_SecondTermMissing) {
+	ck_assert_int_eq(RomanCalculator("I", "+", NULL, result), SecondTermMissing);
 }
 END_TEST
 
-START_TEST(test_I_NULL_I_Returns_ROMAN_CALCULATOR_MISSING_OPERATOR ) {
-	ck_assert_int_eq(RomanCalculator("I", NULL, "I", result), ROMAN_CALCULATOR_MISSING_OPERATOR);
+START_TEST(test_I_NULL_I_Returns_OperatorMissing ) {
+	ck_assert_int_eq(RomanCalculator("I", NULL, "I", result), OperatorMissing);
 }
 END_TEST
 
-START_TEST(test_I_plus_I_With_No_Result_Buffer_Returns_ROMAN_CALCULATOR_MISSING_OUTPUT_BUFFER) {
-	ck_assert_int_eq(RomanCalculator("I", "+", "I", NULL), ROMAN_CALCULATOR_MISSING_OUTPUT_BUFFER);
+START_TEST(test_I_plus_I_With_No_Result_Buffer_Returns_OutputBufferMissing) {
+	ck_assert_int_eq(RomanCalculator("I", "+", "I", NULL), OutputBufferMissing);
 }
 END_TEST
 
-START_TEST(test_I_invalidOperator_I_Returns_ROMAN_CALCULATOR_INVALID_OPERATOR) {
-	ck_assert_int_eq(RomanCalculator("I", "*", "I", result), ROMAN_CALCULATOR_INVALID_OPERATOR);
+START_TEST(test_I_invalidOperator_I_Returns_OperatorInvalid) {
+	ck_assert_int_eq(RomanCalculator("I", "*", "I", result), OperatorInvalid);
 }
 END_TEST
 
-START_TEST(test_IXC_plus_I_Returns_ROMAN_CALCULATOR_INVALID_FIRST_TERM) {
-	ck_assert_int_eq(RomanCalculator("IXC", "+", "I", result), ROMAN_CALCULATOR_INVALID_FIRST_TERM);
+START_TEST(test_IXC_plus_I_Returns_SecondTermOverflow) {
+	ck_assert_int_eq(RomanCalculator("IXC", "+", "I", result), SecondTermOverflow);
 }
 END_TEST
 
-START_TEST(test_IC_plus_I_Returns_ROMAN_CALCULATOR_INVALID_FIRST_TERM) {
-	ck_assert_int_eq(RomanCalculator("IC", "+", "I", result), ROMAN_CALCULATOR_INVALID_FIRST_TERM);
+START_TEST(test_IC_plus_I_Returns_SecondTermOverflow) {
+	ck_assert_int_eq(RomanCalculator("IC", "+", "I", result), SecondTermOverflow);
 }
 END_TEST
 
-START_TEST(test_DM_plus_I_Returns_ROMAN_CALCULATOR_INVALID_FIRST_TERM) {
-	ck_assert_int_eq(RomanCalculator("DM", "+", "I", result), ROMAN_CALCULATOR_INVALID_FIRST_TERM);
+START_TEST(test_DM_plus_I_Returns_SecondTermOverflow) {
+	ck_assert_int_eq(RomanCalculator("DM", "+", "I", result), SecondTermOverflow);
 }
 END_TEST
 
-START_TEST(test_I_plus_DM_Returns_ROMAN_CALCULATOR_INVALID_SECOND_TERM) {
-	ck_assert_int_eq(RomanCalculator("I", "+", "DM", result), ROMAN_CALCULATOR_INVALID_SECOND_TERM);
+START_TEST(test_I_plus_DM_Returns_SecondTermInvalid) {
+	ck_assert_int_eq(RomanCalculator("I", "+", "DM", result), SecondTermInvalid);
 }
 END_TEST
 
-START_TEST(test_W_plus_I_Returns_ROMAN_CALCULATOR_INVALID_FIRST_TERM) {
-	ck_assert_int_eq(RomanCalculator("W", "+", "I", result), ROMAN_CALCULATOR_INVALID_FIRST_TERM);
+START_TEST(test_W_plus_I_Returns_SecondTermOverflow) {
+	ck_assert_int_eq(RomanCalculator("W", "+", "I", result), SecondTermOverflow);
 }
 END_TEST
 
-START_TEST(test_I_plus_W_Returns_ROMAN_CALCULATOR_INVALID_SECOND_TERM) {
-	ck_assert_int_eq(RomanCalculator("I", "+", "W", result), ROMAN_CALCULATOR_INVALID_SECOND_TERM);
+START_TEST(test_I_plus_W_Returns_SecondTermInvalid) {
+	ck_assert_int_eq(RomanCalculator("I", "+", "W", result), SecondTermInvalid);
 }
 END_TEST
 
@@ -117,22 +117,22 @@ START_TEST(test_XLIX_plus_I_returns_L){
 }
 END_TEST
 
-START_TEST(test_MMMM_plus_I_returns_ROMAN_CALCULATOR_FIRST_TERM_OVERFLOW){
-    ck_assert_int_eq( RomanCalculator("MMMM","+","I", result), ROMAN_CALCULATOR_FIRST_TERM_OVERFLOW);
+START_TEST(test_MMMM_plus_I_returns_FirstTermOverflow){
+    ck_assert_int_eq( RomanCalculator("MMMM","+","I", result), FirstTermOverflow);
 }
 END_TEST
 
-START_TEST(test_I_plus_MMMM_returns_ROMAN_CALCULATOR_SECOND_TERM_OVERFLOW){
-    ck_assert_int_eq( RomanCalculator("I","+","MMMM", result), ROMAN_CALCULATOR_SECOND_TERM_OVERFLOW);
+START_TEST(test_I_plus_MMMM_returns_SecondTermOverflow){
+    ck_assert_int_eq( RomanCalculator("I","+","MMMM", result), SecondTermOverflow);
 }
 END_TEST
 
-START_TEST(test_MMM_plus_MMM_returns_ROMAN_CALCULATOR_RESULT_OVERFLOW){
-    ck_assert_int_eq( RomanCalculator("MMM","+","MMM", result), ROMAN_CALCULATOR_RESULT_OVERFLOW);
+START_TEST(test_MMM_plus_MMM_returns_ResultOverflow){
+    ck_assert_int_eq( RomanCalculator("MMM","+","MMM", result), ResultOverflow);
 }
 END_TEST
 
-START_TEST(test_all_values_returns_correct_result){
+START_TEST(test_all_values_returns_correct_results){
     for( int i = 1 ; i < (MAX_ARABIC_VALUE - 1) ; i++ ){
         char term1[16];
         int j = (MAX_ARABIC_VALUE - 1) - i;
@@ -146,7 +146,7 @@ START_TEST(test_all_values_returns_correct_result){
         strcat(term1, convertArabicToRoman(i));
         strcat(term2, convertArabicToRoman(j));
 
-        ck_assert_int_eq(RomanCalculator(term1, "+", term2, result), ROMAN_CALCULATOR_SUCCESS);
+        ck_assert_int_eq(RomanCalculator(term1, "+", term2, result), Success);
     }
     
     ck_assert_int_eq(0,0);
@@ -159,8 +159,8 @@ START_TEST(test_II_minus_I_returns_I){
 }
 END_TEST
 
-START_TEST(test_I_minus_I_returns_ROMAN_CALCULATOR_RESULT_UNDERFLOW){
-    ck_assert_int_eq(RomanCalculator("I", "-", "I", result), ROMAN_CALCULATOR_RESULT_UNDERFLOW);
+START_TEST(test_I_minus_I_returns_ResultUnderflow){
+    ck_assert_int_eq(RomanCalculator("I", "-", "I", result), ResultUnderflow);
 }
 END_TEST
 
@@ -170,22 +170,22 @@ Suite* CalculatorSuite(void) {
 
 	tcase_add_checked_fixture(inputs_case, setup, NULL);
 
-	tcase_add_test(inputs_case, test_NULL_plus_I_Returns_ROMAN_CALCULATOR_MISSING_FIRST_TERM);
-	tcase_add_test(inputs_case, test_I_plus_NULL_Returns_ROMAN_CALCULATOR_MISSING_SECOND_TERM);
-	tcase_add_test(inputs_case, test_I_NULL_I_Returns_ROMAN_CALCULATOR_MISSING_OPERATOR);
-	tcase_add_test(inputs_case, test_I_plus_I_With_No_Result_Buffer_Returns_ROMAN_CALCULATOR_MISSING_OUTPUT_BUFFER);
-	tcase_add_test(inputs_case, test_I_invalidOperator_I_Returns_ROMAN_CALCULATOR_INVALID_OPERATOR);
-	tcase_add_test(inputs_case, test_IXC_plus_I_Returns_ROMAN_CALCULATOR_INVALID_FIRST_TERM);
-	tcase_add_test(inputs_case, test_IC_plus_I_Returns_ROMAN_CALCULATOR_INVALID_FIRST_TERM);
-	tcase_add_test(inputs_case, test_DM_plus_I_Returns_ROMAN_CALCULATOR_INVALID_FIRST_TERM);
-	tcase_add_test(inputs_case, test_I_plus_DM_Returns_ROMAN_CALCULATOR_INVALID_SECOND_TERM);
+	tcase_add_test(inputs_case, test_NULL_plus_I_Returns_FirstTermMissing);
+	tcase_add_test(inputs_case, test_I_plus_NULL_Returns_SecondTermMissing);
+	tcase_add_test(inputs_case, test_I_NULL_I_Returns_OperatorMissing);
+	tcase_add_test(inputs_case, test_I_plus_I_With_No_Result_Buffer_Returns_OutputBufferMissing);
+	tcase_add_test(inputs_case, test_I_invalidOperator_I_Returns_OperatorInvalid);
+	tcase_add_test(inputs_case, test_IXC_plus_I_Returns_SecondTermOverflow);
+	tcase_add_test(inputs_case, test_IC_plus_I_Returns_SecondTermOverflow);
+	tcase_add_test(inputs_case, test_DM_plus_I_Returns_SecondTermOverflow);
+	tcase_add_test(inputs_case, test_I_plus_DM_Returns_SecondTermInvalid);
 
 	suite_add_tcase(suite, inputs_case);
 
     TCase* invalid_numeral_case = tcase_create("Check for Invalid Characters");
 
-    tcase_add_test(invalid_numeral_case, test_W_plus_I_Returns_ROMAN_CALCULATOR_INVALID_FIRST_TERM);
-    tcase_add_test(invalid_numeral_case, test_I_plus_W_Returns_ROMAN_CALCULATOR_INVALID_SECOND_TERM);
+    tcase_add_test(invalid_numeral_case, test_W_plus_I_Returns_SecondTermOverflow);
+    tcase_add_test(invalid_numeral_case, test_I_plus_W_Returns_SecondTermInvalid);
 
     suite_add_tcase(suite, invalid_numeral_case);
 
@@ -205,15 +205,15 @@ Suite* CalculatorSuite(void) {
 	tcase_add_test(adding_case, test_I_plus_V_Returns_VI);
 	tcase_add_test(adding_case, test_LIII_plus_DCDLIX_returns_MXII);
 	tcase_add_test(adding_case, test_XLIX_plus_I_returns_L);
-    tcase_add_test(adding_case, test_MMMM_plus_I_returns_ROMAN_CALCULATOR_FIRST_TERM_OVERFLOW);
-    tcase_add_test(adding_case, test_I_plus_MMMM_returns_ROMAN_CALCULATOR_SECOND_TERM_OVERFLOW);
-    tcase_add_test(adding_case, test_MMM_plus_MMM_returns_ROMAN_CALCULATOR_RESULT_OVERFLOW);
-    tcase_add_test(adding_case, test_all_values_returns_correct_result); 
+    tcase_add_test(adding_case, test_MMMM_plus_I_returns_FirstTermOverflow);
+    tcase_add_test(adding_case, test_I_plus_MMMM_returns_SecondTermOverflow);
+    tcase_add_test(adding_case, test_MMM_plus_MMM_returns_ResultOverflow);
+    tcase_add_test(adding_case, test_all_values_returns_correct_results); 
 	suite_add_tcase(suite, adding_case);
     
     TCase* subtraction_case = tcase_create("Subtraction tests");
     tcase_add_test(subtraction_case, test_II_minus_I_returns_I);
-    tcase_add_test(subtraction_case, test_I_minus_I_returns_ROMAN_CALCULATOR_RESULT_UNDERFLOW);
+    tcase_add_test(subtraction_case, test_I_minus_I_returns_ResultUnderflow);
 
     suite_add_tcase(suite, subtraction_case);
 	return suite;
