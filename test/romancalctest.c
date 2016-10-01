@@ -39,18 +39,18 @@ START_TEST(test_I_invalidOperator_I_Returns_OperatorInvalid) {
 }
 END_TEST
 
-START_TEST(test_IXC_plus_I_Returns_SecondTermOverflow) {
-	ck_assert_int_eq(RomanCalculator("IXC", "+", "I", result), SecondTermOverflow);
+START_TEST(test_IXC_plus_I_Returns_FirstTermInvalid) {
+	ck_assert_int_eq(RomanCalculator("IXC", "+", "I", result), FirstTermInvalid);
 }
 END_TEST
 
-START_TEST(test_IC_plus_I_Returns_SecondTermOverflow) {
-	ck_assert_int_eq(RomanCalculator("IC", "+", "I", result), SecondTermOverflow);
+START_TEST(test_IC_plus_I_Returns_FirstTermInvalid) {
+	ck_assert_int_eq(RomanCalculator("IC", "+", "I", result), FirstTermInvalid);
 }
 END_TEST
 
-START_TEST(test_DM_plus_I_Returns_SecondTermOverflow) {
-	ck_assert_int_eq(RomanCalculator("DM", "+", "I", result), SecondTermOverflow);
+START_TEST(test_DM_plus_I_Returns_FirstTermInvalid) {
+	ck_assert_int_eq(RomanCalculator("DM", "+", "I", result), FirstTermInvalid);
 }
 END_TEST
 
@@ -59,8 +59,8 @@ START_TEST(test_I_plus_DM_Returns_SecondTermInvalid) {
 }
 END_TEST
 
-START_TEST(test_W_plus_I_Returns_SecondTermOverflow) {
-	ck_assert_int_eq(RomanCalculator("W", "+", "I", result), SecondTermOverflow);
+START_TEST(test_W_plus_I_Returns_FirstTermInvalid) {
+	ck_assert_int_eq(RomanCalculator("W", "+", "I", result), FirstTermInvalid);
 }
 END_TEST
 
@@ -175,16 +175,16 @@ Suite* CalculatorSuite(void) {
 	tcase_add_test(inputs_case, test_I_NULL_I_Returns_OperatorMissing);
 	tcase_add_test(inputs_case, test_I_plus_I_With_No_Result_Buffer_Returns_OutputBufferMissing);
 	tcase_add_test(inputs_case, test_I_invalidOperator_I_Returns_OperatorInvalid);
-	tcase_add_test(inputs_case, test_IXC_plus_I_Returns_SecondTermOverflow);
-	tcase_add_test(inputs_case, test_IC_plus_I_Returns_SecondTermOverflow);
-	tcase_add_test(inputs_case, test_DM_plus_I_Returns_SecondTermOverflow);
+	tcase_add_test(inputs_case, test_IXC_plus_I_Returns_FirstTermInvalid);
+	tcase_add_test(inputs_case, test_IC_plus_I_Returns_FirstTermInvalid);
+	tcase_add_test(inputs_case, test_DM_plus_I_Returns_FirstTermInvalid);
 	tcase_add_test(inputs_case, test_I_plus_DM_Returns_SecondTermInvalid);
 
 	suite_add_tcase(suite, inputs_case);
 
     TCase* invalid_numeral_case = tcase_create("Check for Invalid Characters");
 
-    tcase_add_test(invalid_numeral_case, test_W_plus_I_Returns_SecondTermOverflow);
+    tcase_add_test(invalid_numeral_case, test_W_plus_I_Returns_FirstTermInvalid);
     tcase_add_test(invalid_numeral_case, test_I_plus_W_Returns_SecondTermInvalid);
 
     suite_add_tcase(suite, invalid_numeral_case);

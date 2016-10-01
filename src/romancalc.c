@@ -53,6 +53,7 @@ arabicRomanPair arabic_roman_lookup[] = 	{
 
 arabicRomanPair* lastArabicRomanLookupEntry = &arabic_roman_lookup[sizeof(roman_arabic_lookup) / 
                                                 sizeof(arabicRomanPair) - 1];
+#define romanNumeralComponentIsFound() strncmp(position_in_roman_numeral, pair->roman, pair->romanLength) == 0
 
 int convertRomanToArabic(char* romanNumeral) {
 	char* position_in_roman_numeral = romanNumeral;
@@ -62,7 +63,7 @@ int convertRomanToArabic(char* romanNumeral) {
 		arabicRomanPair* pair = roman_arabic_lookup;
 
 		while( pair <= lastRomanArabicLookupEntry ) {
-			if(strncmp(position_in_roman_numeral, pair->roman, pair->romanLength) == 0) {
+			if(romanNumeralComponentIsFound()) {
 				accumulator += pair->arabic;
 				break;
 			}
@@ -78,71 +79,83 @@ int convertRomanToArabic(char* romanNumeral) {
 
 char romanNumeral[16];
 
+#define arabicValueNotDepleted() arabic_value > 0
+#define exactMatchToArabicValue() pair->arabic == arabic_value
+#define tableEntryExceedsArabicValue() pair->arabic > arabic_value
+#define lastTableEntryIsLessOrEqualToArabicValue()  pair == lastArabicRomanLookupEntry && pair->arabic <= arabic_value
+#define arabicValueAndTableEntriesRemain() pair <= lastArabicRomanLookupEntry && arabic_value > 0
+
 char* convertArabicToRoman(int arabic_number){
-	int decremented_value = arabic_number;
+	int arabic_value = arabic_number;
 
 	memset(romanNumeral,0x00,sizeof(romanNumeral));
 	
-	while(decremented_value > 0) {
+	while(arabicValueNotDepleted()) {
 		arabicRomanPair* pair = arabic_roman_lookup;
 
 		do {
-            if( pair == lastArabicRomanLookupEntry && pair->arabic <= decremented_value) {
+            if(lastTableEntryIsLessOrEqualToArabicValue()) {
 				strcat(romanNumeral, pair->roman);
-				decremented_value -= pair->arabic;
+				arabic_value -= pair->arabic;
 				break;
 			}
 	
-			if(pair->arabic > decremented_value) {
+			if(tableEntryExceedsArabicValue()) {
 				strcat(romanNumeral, (pair - 1)->roman);
-				decremented_value -= (pair - 1)->arabic;
+				arabic_value -= (pair - 1)->arabic;
 				break;
 			} 
-            else if (pair->arabic == decremented_value) {
+            else if (exactMatchToArabicValue()) {
                 strcat(romanNumeral, pair->roman);
-                decremented_value -= pair->arabic;
+                arabic_value -= pair->arabic;
                 break;
             }
 
 			pair++;
-		} while( pair <= lastArabicRomanLookupEntry && decremented_value > 0);
+		} while(arabicValueAndTableEntriesRemain());
 	}
 
 	return romanNumeral; 
 }
 
+#define notFinishedParsingRomanNumeral()  current_index > 0 
+#define endOfRomanNumeralString() strlen(romanNumeral)
+#define romanSubstringMatchesCurrentTableEntry() memcmp(&romanNumeral[current_index - pair->romanLength], pair->roman, pair->romanLength) == 0
+#define valueNotFoundOrIsLessThanPrevious() !romanNumeralIsValid || current_value < previous_value
+#define entireRomanNumeralProcessed() current_index == 0
+
 _Bool validateRomanNumeral(char *romanNumeral) {
 
-	int arabic_current_value = 0;
-	int arabic_previous_value = 0;
-	int current_index = strlen(romanNumeral);
-	_Bool valid_term;
+	int current_value = 0;
+	int previous_value = 0;
+	int current_index = endOfRomanNumeralString();
+	_Bool romanNumeralIsValid;
 
-	while( current_index > 0 ) {
-		valid_term = false;
+	while(notFinishedParsingRomanNumeral()) {
+		romanNumeralIsValid = false;
 
 		for( arabicRomanPair* pair = roman_arabic_lookup ; pair <= lastRomanArabicLookupEntry ; pair++ ) {
-			if(memcmp(&romanNumeral[current_index - pair->romanLength], pair->roman, pair->romanLength) == 0) {
+			if(romanSubstringMatchesCurrentTableEntry()) {
 				current_index -= pair->romanLength;
-				arabic_current_value = pair->arabic;
-				valid_term = true;
+				current_value = pair->arabic;
+				romanNumeralIsValid = true;
 				break;
 			}
 		}
 
-		if(!valid_term || arabic_current_value < arabic_previous_value ) {
-			valid_term = false;
+		if(valueNotFoundOrIsLessThanPrevious() ) {
+			romanNumeralIsValid = false;
 			break;
 		}
 		
-		if(current_index == 0) {
+		if(entireRomanNumeralProcessed()) {
 			break;
 		}
 		
-		arabic_previous_value = arabic_current_value;
+		previous_value = current_value;
 	}
 
-	return valid_term;
+	return romanNumeralIsValid;
 }
 
 char* uppercase(char* parm){
@@ -157,6 +170,8 @@ char* uppercase(char* parm){
 
 char first_parm[16];
 char second_parm[16];
+
+#define isNotValidOperator()  strcmp(operator, "+") && strcmp(operator, "-" )
 
 int validateInputParameters(char* first, char* operator, char* second, char* result) {
 
@@ -184,12 +199,12 @@ int validateInputParameters(char* first, char* operator, char* second, char* res
     strcat(second_parm, second);
     uppercase(second_parm);
 
-	if( strcmp(operator, "+") && strcmp(operator, "-" ) ) {
+	if(isNotValidOperator()) {
 		return OperatorInvalid;
     }
 
 	if( !validateRomanNumeral(first_parm) ) {
-		return SecondTermOverflow;
+		return FirstTermInvalid;
     }
 
 	if( !validateRomanNumeral(second_parm) ) {
@@ -199,12 +214,13 @@ int validateInputParameters(char* first, char* operator, char* second, char* res
 	return Success;	
 }
 
+#define additionOperation()  strcmp(operator, "+" ) == 0
+
 enum CalculatorStatus RomanCalculator(char *first, char* operator, char* second, char* result) {
 
 	int returnCode;
 
-	if( ( returnCode = validateInputParameters(first, operator, second, result) ) != 
-        Success ) {
+	if( ( returnCode = validateInputParameters(first, operator, second, result) ) != Success ) {
 		return returnCode;
     }
 
@@ -223,7 +239,7 @@ enum CalculatorStatus RomanCalculator(char *first, char* operator, char* second,
         return SecondTermOverflow;
     }
 
-    if( strcmp(operator, "+" ) == 0) {
+    if(additionOperation()) {
         int sum = first_in_arabic + second_in_arabic;
 
         if( sum > MAX_ARABIC_VALUE ) {
