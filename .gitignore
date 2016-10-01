@@ -1,8 +1,16 @@
+# vim files
+*.swp
+
+# VS Code files
+*.vscode/
 # Object files
 *.o
 *.ko
 *.obj
 *.elf
+
+#output files
+output/
 
 # Precompiled Headers
 *.gch
