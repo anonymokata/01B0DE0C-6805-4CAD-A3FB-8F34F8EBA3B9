@@ -2,11 +2,23 @@
 
 #define ROMAN_CALC_H_DEFINED
 
+#include <stdio.h>
+#include <stdbool.h>
+#include <string.h>
+#include <ctype.h>
+
+#include "validate.h"
+
 typedef struct arabicRomanPair {
 	int 	arabic;
 	char* 	roman;
 	int 	romanLength;
 } arabicRomanPair; 
+
+extern arabicRomanPair roman_arabic_lookup[];
+extern arabicRomanPair arabic_roman_lookup[];
+extern arabicRomanPair* lastRomanArabicLookupEntry;
+extern arabicRomanPair* lastArabicRomanLookupEntry;
 
 enum CalculatorStatus {
     Success,

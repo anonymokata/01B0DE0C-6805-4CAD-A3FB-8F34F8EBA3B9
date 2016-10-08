@@ -1,8 +1,3 @@
-#include <stdio.h>
-#include <stdbool.h>
-#include <string.h>
-#include <ctype.h>
-
 #include "romancalc.h"
 
 arabicRomanPair roman_arabic_lookup[] = 	{
@@ -22,7 +17,6 @@ arabicRomanPair roman_arabic_lookup[] = 	{
 												{ 500, 	ROMAN_D  , sizeof(ROMAN_D) - 1  },
 												{1000, 	ROMAN_M  , sizeof(ROMAN_M) - 1  }
 											};
-
 
 arabicRomanPair* lastRomanArabicLookupEntry = &roman_arabic_lookup[sizeof(roman_arabic_lookup) / 
                                                 sizeof(arabicRomanPair) - 1];
@@ -47,6 +41,7 @@ arabicRomanPair arabic_roman_lookup[] = 	{
 
 arabicRomanPair* lastArabicRomanLookupEntry = &arabic_roman_lookup[sizeof(roman_arabic_lookup) / 
                                                 sizeof(arabicRomanPair) - 1];
+
 #define romanNumeralComponentIsFound() strncmp(position_in_roman_numeral, pair->roman, pair->romanLength) == 0
 
 int convertRomanToArabic(char* romanNumeral) {
@@ -112,101 +107,8 @@ char* convertArabicToRoman(int arabic_number){
 	return romanNumeral; 
 }
 
-#define notFinishedParsingRomanNumeral()  current_index > 0 
-#define endOfRomanNumeralString() strlen(romanNumeral)
-#define romanSubstringMatchesCurrentTableEntry() memcmp(&romanNumeral[current_index - pair->romanLength], pair->roman, pair->romanLength) == 0
-#define valueNotFoundOrIsLessThanPrevious() !romanNumeralIsValid || current_value < previous_value
-#define entireRomanNumeralProcessed() current_index == 0
-
-_Bool validateRomanNumeral(char *romanNumeral) {
-
-	int current_value = 0;
-	int previous_value = 0;
-	int current_index = endOfRomanNumeralString();
-	_Bool romanNumeralIsValid;
-
-	while(notFinishedParsingRomanNumeral()) {
-		romanNumeralIsValid = false;
-
-		for( arabicRomanPair* pair = roman_arabic_lookup ; pair <= lastRomanArabicLookupEntry ; pair++ ) {
-			if(romanSubstringMatchesCurrentTableEntry()) {
-				current_index -= pair->romanLength;
-				current_value = pair->arabic;
-				romanNumeralIsValid = true;
-				break;
-			}
-		}
-
-		if(valueNotFoundOrIsLessThanPrevious() ) {
-			romanNumeralIsValid = false;
-			break;
-		}
-		
-		if(entireRomanNumeralProcessed()) {
-			break;
-		}
-		
-		previous_value = current_value;
-	}
-
-	return romanNumeralIsValid;
-}
-
-char* uppercase(char* parm){
-    int parm_length = strlen(parm);
-   
-    for(int i = 0 ; i < parm_length ; i++) {
-        parm[i] = toupper((int) parm[i]);    
-    }
-
-    return parm;
-}
-
-char first_parm[16];
-char second_parm[16];
-
-#define isNotValidOperator()  strcmp(operator, "+") && strcmp(operator, "-" )
-
-int validateInputParameters(char* first, char* operator, char* second, char* result) {
-
-	if( first == NULL ) {
-		return FirstTermMissing;
-    }
-
-	if( second == NULL ) {
-		return SecondTermMissing;
-    }
-
-	if( operator == NULL ) {
-		return OperatorMissing;
-    }
-
-	if( result == NULL ) {
-		return OutputBufferMissing;
-    }
-
-    memset(first_parm, 0x00, sizeof(first_parm));
-    strcat(first_parm, first);
-    uppercase(first_parm);
-
-    memset(second_parm, 0x00, sizeof(second_parm));
-    strcat(second_parm, second);
-    uppercase(second_parm);
-
-	if(isNotValidOperator()) {
-		return OperatorInvalid;
-    }
-
-	if( !validateRomanNumeral(first_parm) ) {
-		return FirstTermInvalid;
-    }
-
-	if( !validateRomanNumeral(second_parm) ) {
-		return SecondTermInvalid;
-    }
-
-	return Success;	
-}
+extern char first_parm[16];
+extern char second_parm[16];
 
 #define additionOperation()  strcmp(operator, "+" ) == 0
 
@@ -254,4 +156,3 @@ enum CalculatorStatus RomanCalculator(char *first, char* operator, char* second,
 
 	return Success;
 }
-
