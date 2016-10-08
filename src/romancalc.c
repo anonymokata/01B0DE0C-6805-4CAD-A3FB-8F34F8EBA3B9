@@ -5,12 +5,6 @@
 
 #include "romancalc.h"
 
-typedef struct arabicRomanPair {
-	int 	arabic;
-	char* 	roman;
-	int 	romanLength;
-} arabicRomanPair; 
-
 arabicRomanPair roman_arabic_lookup[] = 	{
 												{   3, 	ROMAN_III, sizeof(ROMAN_III) - 1},
 												{   2, 	ROMAN_II , sizeof(ROMAN_II) - 1 },

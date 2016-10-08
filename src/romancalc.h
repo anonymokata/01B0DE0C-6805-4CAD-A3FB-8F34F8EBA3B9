@@ -2,6 +2,12 @@
 
 #define ROMAN_CALC_H_DEFINED
 
+typedef struct arabicRomanPair {
+	int 	arabic;
+	char* 	roman;
+	int 	romanLength;
+} arabicRomanPair; 
+
 enum CalculatorStatus {
     Success,
     FirstTermMissing,
