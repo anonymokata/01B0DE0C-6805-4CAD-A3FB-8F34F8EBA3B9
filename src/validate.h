@@ -1,13 +1,26 @@
 #ifndef VALIDATE_H_DEFINED
 #define VALIDATE_H_DEFINED
 
-#include "romancalc.h"
+#include "convert.h"
 
 char* uppercase(char* parm);
 _Bool validateRomanNumeral(char *romanNumeral);
-int validateInputParameters(char* first, char* operator, char* second, char* result);
+int validateInputParametersPresent(char* first, char* operator, char* second, char* result);
+int validateInputParametersValid(char* first, char* operator, char* second);
 
-extern char first_parm[16];
-extern char second_parm[16];
+enum CalculatorStatus {
+    Success,
+    FirstTermMissing,
+    FirstTermInvalid,
+    FirstTermOverflow,
+    SecondTermMissing,
+    SecondTermInvalid,
+    SecondTermOverflow,
+    OperatorMissing,
+    OperatorInvalid,
+    OutputBufferMissing,
+    ResultUnderflow,
+    ResultOverflow
+};
 
 #endif

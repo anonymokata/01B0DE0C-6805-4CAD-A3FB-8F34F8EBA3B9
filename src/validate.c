@@ -10,12 +10,25 @@ char* uppercase(char* parm){
     return parm;
 }
 
-char first_parm[16];
-char second_parm[16];
-
 #define isNotValidOperator()  strcmp(operator, "+") && strcmp(operator, "-" )
+int validateInputParametersValid(char* first, char* operator, char* second) {
 
-int validateInputParameters(char* first, char* operator, char* second, char* result) {
+	if(isNotValidOperator()) {
+		return OperatorInvalid;
+    }
+
+	if( !validateRomanNumeral(first) ) {
+		return FirstTermInvalid;
+    }
+
+	if( !validateRomanNumeral(second) ) {
+		return SecondTermInvalid;
+    }
+
+    return Success;
+}
+
+int validateInputParametersPresent(char* first, char* operator, char* second, char* result) {
 
 	if( first == NULL ) {
 		return FirstTermMissing;
@@ -31,26 +44,6 @@ int validateInputParameters(char* first, char* operator, char* second, char* res
 
 	if( result == NULL ) {
 		return OutputBufferMissing;
-    }
-
-    memset(first_parm, 0x00, sizeof(first_parm));
-    strcat(first_parm, first);
-    uppercase(first_parm);
-
-    memset(second_parm, 0x00, sizeof(second_parm));
-    strcat(second_parm, second);
-    uppercase(second_parm);
-
-	if(isNotValidOperator()) {
-		return OperatorInvalid;
-    }
-
-	if( !validateRomanNumeral(first_parm) ) {
-		return FirstTermInvalid;
-    }
-
-	if( !validateRomanNumeral(second_parm) ) {
-		return SecondTermInvalid;
     }
 
 	return Success;	

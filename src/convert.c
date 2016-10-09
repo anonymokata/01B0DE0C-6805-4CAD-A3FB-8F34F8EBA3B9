@@ -66,19 +66,15 @@ int convertRomanToArabic(char* romanNumeral) {
 	return accumulator;
 }
 
-char romanNumeral[16];
-
 #define arabicValueNotDepleted() arabic_value > 0
 #define exactMatchToArabicValue() pair->arabic == arabic_value
 #define tableEntryExceedsArabicValue() pair->arabic > arabic_value
 #define lastTableEntryIsLessOrEqualToArabicValue()  pair == lastArabicRomanLookupEntry && pair->arabic <= arabic_value
 #define arabicValueAndTableEntriesRemain() pair <= lastArabicRomanLookupEntry && arabic_value > 0
 
-char* convertArabicToRoman(int arabic_number){
+char* convertArabicToRoman(int arabic_number, char *romanNumeral){
 	int arabic_value = arabic_number;
 
-	memset(romanNumeral,0x00,sizeof(romanNumeral));
-	
 	while(arabicValueNotDepleted()) {
 		arabicRomanPair* pair = arabic_roman_lookup;
 

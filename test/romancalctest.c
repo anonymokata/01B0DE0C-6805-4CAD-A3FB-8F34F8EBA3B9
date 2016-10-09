@@ -4,7 +4,7 @@
 #include "romancalctest.h"
 #include "../src/romancalc.h"
 
-char result[16];
+char result[BUFFER_SIZE];
 
 void setup(void) {
 	memset(result, 0x00, sizeof(result));
@@ -134,17 +134,21 @@ END_TEST
 
 START_TEST(test_all_values_returns_correct_results){
     for( int i = 1 ; i < (MAX_ARABIC_VALUE - 1) ; i++ ){
-        char term1[16];
+        char term1[BUFFER_SIZE];
         int j = (MAX_ARABIC_VALUE - 1) - i;
-        char term2[16];
-        char result[16];
+        char term2[BUFFER_SIZE];
+		char romanNumeral[BUFFER_SIZE];
+        char result[BUFFER_SIZE];
 
         memset(term1, 0x00, sizeof(term1));
         memset(term2, 0x00, sizeof(term2));
         memset(result, 0x00, sizeof(result));
-        
-        strcat(term1, convertArabicToRoman(i));
-        strcat(term2, convertArabicToRoman(j));
+        memset(romanNumeral,0x00,sizeof(romanNumeral));
+
+        strcat(term1, convertArabicToRoman(i, romanNumeral));
+
+        memset(romanNumeral,0x00,sizeof(romanNumeral));
+        strcat(term2, convertArabicToRoman(j, romanNumeral));
 
         ck_assert_int_eq(RomanCalculator(term1, "+", term2, result), Success);
     }

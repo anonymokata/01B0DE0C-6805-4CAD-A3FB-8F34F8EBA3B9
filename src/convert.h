@@ -8,13 +8,18 @@
 #include <ctype.h>
 
 int convertRomanToArabic(char* romanNumeral);
-char* convertArabicToRoman(int arabic_number);
+char* convertArabicToRoman(int arabic_number, char* romanNumeral);
 
 typedef struct arabicRomanPair {
 	int 	arabic;
 	char* 	roman;
 	int 	romanLength;
 } arabicRomanPair; 
+
+extern arabicRomanPair roman_arabic_lookup[];
+extern arabicRomanPair arabic_roman_lookup[];
+extern arabicRomanPair* lastRomanArabicLookupEntry;
+extern arabicRomanPair* lastArabicRomanLookupEntry;
 
 #define ROMAN_I 	"I" 	/* 		1 */
 #define ROMAN_II 	"II" 	/* 		2 */
