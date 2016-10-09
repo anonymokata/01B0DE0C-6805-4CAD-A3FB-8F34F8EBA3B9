@@ -6,5 +6,5 @@
 #include "convert.h"
 
 enum CalculatorStatus RomanCalculator(char *first, char* operator, char* second, char* result);
-#define BUFFER_SIZE 16
+
 #endif

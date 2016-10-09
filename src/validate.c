@@ -11,6 +11,7 @@ char* uppercase(char* parm){
 }
 
 #define isNotValidOperator()  strcmp(operator, "+") && strcmp(operator, "-" )
+
 int validateInputParametersValid(char* first, char* operator, char* second) {
 
 	if(isNotValidOperator()) {
@@ -24,6 +25,16 @@ int validateInputParametersValid(char* first, char* operator, char* second) {
 	if( !validateRomanNumeral(second) ) {
 		return SecondTermInvalid;
     }
+
+    return Success;
+}
+
+int validateInputTermsProperSize(char* first, char* second) {
+    if(strlen(first) > BUFFER_SIZE)
+        return FirstTermInvalid;
+
+    if( strlen(second) > BUFFER_SIZE )
+        return SecondTermInvalid;
 
     return Success;
 }
@@ -60,7 +71,10 @@ _Bool validateRomanNumeral(char *romanNumeral) {
 	int current_value = 0;
 	int previous_value = 0;
 	int current_index = endOfRomanNumeralString();
-	_Bool romanNumeralIsValid;
+	_Bool romanNumeralIsValid = false;
+
+    if(current_index > BUFFER_SIZE)
+        return romanNumeralIsValid;
 
 	while(notFinishedParsingRomanNumeral()) {
 		romanNumeralIsValid = false;

@@ -43,15 +43,18 @@ arabicRomanPair* lastArabicRomanLookupEntry = &arabic_roman_lookup[sizeof(roman_
                                                 sizeof(arabicRomanPair) - 1];
 
 #define romanNumeralComponentIsFound() strncmp(position_in_roman_numeral, pair->roman, pair->romanLength) == 0
+#define charactersRemainInRomanNumeral() strlen(position_in_roman_numeral) != 0
+#define notPastEndOfLookupTable() pair <= lastRomanArabicLookupEntry
+#define advanceToNextPositionInRomanNumeral() position_in_roman_numeral += pair->romanLength
 
 int convertRomanToArabic(char* romanNumeral) {
 	char* position_in_roman_numeral = romanNumeral;
 	int accumulator = 0;
 
-	while( strlen(position_in_roman_numeral) != 0 ) {
+	while( charactersRemainInRomanNumeral() ) {
 		arabicRomanPair* pair = roman_arabic_lookup;
 
-		while( pair <= lastRomanArabicLookupEntry ) {
+		while( notPastEndOfLookupTable() ) {
 			if(romanNumeralComponentIsFound()) {
 				accumulator += pair->arabic;
 				break;
@@ -60,7 +63,7 @@ int convertRomanToArabic(char* romanNumeral) {
 			pair++;
 		}
 		
-		position_in_roman_numeral += pair->romanLength;
+		advanceToNextPositionInRomanNumeral();
 	}
 
 	return accumulator;

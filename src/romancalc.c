@@ -1,5 +1,24 @@
 #include "romancalc.h"
 
+char *ltrim(char *s)
+{
+    while(isspace(*s)) s++;
+    return s;
+}
+
+char *rtrim(char *s)
+{
+    char* back = s + strlen(s);
+    while(isspace(*--back));
+    *(back+1) = '\0';
+    return s;
+}
+
+char *trim(char *s)
+{
+    return rtrim(ltrim(s)); 
+}
+
 typedef struct {
     char first_term[BUFFER_SIZE];
     char second_term[BUFFER_SIZE];
@@ -15,6 +34,10 @@ enum CalculatorStatus RomanCalculator(char *first, char* operator, char* second,
 	if( ( returnCode = validateInputParametersPresent(first, operator, second, result) ) != Success ) {
 		return returnCode;
     }
+
+	if( ( returnCode = validateInputTermsProperSize(first, second) ) != Success ) {
+		return returnCode;
+	}
 
     memset(terms.first_term, 0x00, sizeof(terms.first_term));
     strcat(terms.first_term, first);
